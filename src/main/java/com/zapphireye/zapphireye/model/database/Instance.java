@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Url {
-    private String value;
-    private String url;
+public class Instance {
+    private String uri;
+    private String method;
+    private String param;
+    private String attack;
+    private String evidence;
 }

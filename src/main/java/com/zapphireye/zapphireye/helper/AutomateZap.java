@@ -1,13 +1,13 @@
-package com.zapphireye.zapphireye;
+package com.zapphireye.zapphireye.helper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.zapphireye.zapphireye.model.database.Scan;
+import org.json.JSONObject;
 import org.zaproxy.clientapi.core.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -15,41 +15,38 @@ import java.util.logging.Logger;
 
 public class AutomateZap {
     Logger log = Logger.getLogger(AutomateZap.class.getName());
-    String driverPath = "/home/izzatbey/Documents/zapphireye/drivers/chromedriver";
-    String url = "http://localhost:3000";
-    String host = "localhost";
+    //String driverPath = "/home/izzatbey/Documents/zapphireye/drivers/chromedriver";
+    public String driverPath;
+    public String url;
+    public String host = "localhost";
+    String scanPolicyName;
     int port = 8098;
     private final ClientApi clientapi;
     private static List<String> blackListPlugins = Arrays.asList("1000", "1025");
 
-    public AutomateZap() throws ClientApiException {
+    public AutomateZap(String driverPath, String url) {
         this.clientapi = new ClientApi(host, port);
-        setup();
-        spider();
-        activeScan();
-        result();
+        this.driverPath = driverPath;
+        this.url = url;
     }
 
-    private void setup() throws ClientApiException {
+    public void setup() throws ClientApiException {
         clientapi.selenium.setOptionChromeDriverPath(driverPath);
         log.info("Driver Created");
     }
 
-    public static String convertObjToString(Object clsObj) {
-        String jsonSender = new Gson().toJson(clsObj, new TypeToken<Object>() {
-        }.getType());
+    private static String convertObjToString(Object clsObj) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String prettyJson = gson.toJson(clsObj, new TypeToken<Object>() {
         }.getType());
         return prettyJson;
     }
 
-    private void spider() {
-        String TARGET = "http://localhost:3000";
+    public void spider() {
         try {
             // Start spidering the target
-            log.info("Spidering target : " + TARGET);
-            ApiResponse resp = clientapi.spider.scan(TARGET, null, null, null, null);
+            log.info("Spidering target : " + url);
+            ApiResponse resp = clientapi.spider.scan(url, null, null, null, null);
             String scanID;
             int progress;
 
@@ -69,10 +66,6 @@ public class AutomateZap {
             List<ApiResponse> spiderResults = ((ApiResponseList) clientapi.spider.results(scanID)).getItems();
             System.out.println(convertObjToString(spiderResults));
 
-//            List<String> urlResult = new ArrayList<>();
-//            for (ApiResponse response:spiderResults) {
-//                urlResult.add(response.)
-//            }
             // TODO: Explore the Application more with Ajax Spider or Start scanning the application for vulnerabilities
 
         } catch (Exception e) {
@@ -81,17 +74,11 @@ public class AutomateZap {
         }
     }
 
-    private void ajaxSpider() {
-
-    }
-
-    private void activeScan() {
-        String TARGET = "http://localhost:3000";
-
+    public Scan activeScan() {
         try {
             // TODO : explore the app (Spider, etc) before using the Active Scan API, Refer the explore section
-            log.info("Active Scanning target : " + TARGET);
-            ApiResponse resp = clientapi.ascan.scan(TARGET, "True", "False", null, null, null);
+            log.info("Active Scanning target : " + url);
+            ApiResponse resp = clientapi.ascan.scan(url, "True", "False", scanPolicyName, null, null);
             String scanid;
             int progress;
 
@@ -112,17 +99,19 @@ public class AutomateZap {
             log.info("Active Scan complete");
             // Print vulnerabilities found by the scanning
             log.info("Alerts:");
-            log.info(new String(clientapi.core.jsonreport(), StandardCharsets.UTF_8));
+            String result = new String(clientapi.core.jsonreport(), StandardCharsets.UTF_8);
+            System.out.println(result);
+            //return targetObject;
+            return JSONToObject.parseListObject(new JSONObject(result));
 
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
             e.printStackTrace();
+            return null;
         }
     }
 
-    private void result() {
-        String TARGET = "http://localhost:3000";
-
+    public void result() {
         try {
             // TODO: Check if the scanning has completed
 
@@ -130,7 +119,7 @@ public class AutomateZap {
             int start = 0;
             int count = 5000;
             int alertCount = 0;
-            ApiResponse resp = clientapi.alert.alerts(TARGET, String.valueOf(start), String.valueOf(count), null);
+            ApiResponse resp = clientapi.alert.alerts(url, String.valueOf(start), String.valueOf(count), null);
 
             while (((ApiResponseList) resp).getItems().size() != 0) {
                 System.out.println("Reading " + count + " alerts from " + start);
@@ -148,7 +137,7 @@ public class AutomateZap {
                     }
                 }
                 start += count;
-                resp = clientapi.alert.alerts(TARGET, String.valueOf(start), String.valueOf(count), null);
+                resp = clientapi.alert.alerts(url, String.valueOf(start), String.valueOf(count), null);
             }
             System.out.println("Total number of Alerts: " + alertCount);
 

@@ -1,6 +1,7 @@
 package com.zapphireye.zapphireye.model.database;
 
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +13,7 @@ import java.util.List;
 public class Scan {
     @Id
     private String id;
-    private String domain;
-    private List<Site> sites;
+    @SerializedName(value = "@generated")
+    private String date;
+    private Site site;
 }

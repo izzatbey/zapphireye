@@ -1,27 +1,15 @@
 package com.zapphireye.zapphireye.model.request;
 
 public class CreateScanRequest {
-
-    private String threshold;
-
-    private String strength;
-
+    private String driverPath;
     private String url;
 
-    public String getThreshold() {
-        return threshold;
+    public String getDriverPath() {
+        return driverPath;
     }
 
-    public void setThreshold(String threshold) {
-        this.threshold = threshold;
-    }
-
-    public String getStrength() {
-        return strength;
-    }
-
-    public void setStrength(String strength) {
-        this.strength = strength;
+    public void setDriverPath(String driverPath) {
+        this.driverPath = driverPath;
     }
 
     public String getUrl() {
