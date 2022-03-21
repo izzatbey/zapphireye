@@ -9,11 +9,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync
 @EnableScheduling
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+//@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@SpringBootApplication
 public class ZapphireyeApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ZapphireyeApplication.class, args);
 	}
-
 }

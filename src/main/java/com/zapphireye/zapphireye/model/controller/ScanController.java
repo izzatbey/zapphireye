@@ -7,12 +7,9 @@ import com.zapphireye.zapphireye.service.ScanService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.web.bind.annotation.*;
-import org.zaproxy.clientapi.core.ClientApiException;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
