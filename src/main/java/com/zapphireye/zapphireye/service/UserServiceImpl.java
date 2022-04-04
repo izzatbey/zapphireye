@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Service
@@ -24,5 +25,14 @@ public class UserServiceImpl implements UserDetailsService {
         String name = foundedUser.getUsername();
         String pass = foundedUser.getPassword();
         return new org.springframework.security.core.userdetails.User(name, pass, new ArrayList<>());
+    }
+
+    //@Override
+    public Boolean checkUserByUsername(User user) throws IOException {
+        User foundedUser = userRepository.findByUsername(user.getUsername());
+        if(foundedUser != null)
+            throw new IOException("error message");
+        userRepository.save(user);
+        return true;
     }
 }

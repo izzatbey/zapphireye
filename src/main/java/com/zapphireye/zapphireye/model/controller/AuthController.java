@@ -7,16 +7,17 @@ import com.zapphireye.zapphireye.repository.UserRepository;
 import com.zapphireye.zapphireye.service.UserServiceImpl;
 import com.zapphireye.zapphireye.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
+@CrossOrigin
 @RestController
 public class AuthController {
 
@@ -45,9 +46,11 @@ public class AuthController {
         user.setUsername(username);
         user.setPassword(password);
         try {
-            userRepository.save(user);
+            userService.checkUserByUsername(user);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new AuthResponse("Username" + username + "Has Been Taken"));
         } catch (Exception e) {
-            return ResponseEntity.ok(new AuthResponse("Error during Subscription for client " + username));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AuthResponse("Error : " + e));
         }
         return ResponseEntity.ok(new AuthResponse("Succesful Subscription for client " + username));
     }
