@@ -27,11 +27,16 @@ public class UserServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(name, pass, new ArrayList<>());
     }
 
-    //@Override
+    public User loadUserRole(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public Boolean checkUserByUsername(User user) throws IOException {
         User foundedUser = userRepository.findByUsername(user.getUsername());
         if(foundedUser != null)
             throw new IOException("error message");
+        System.out.println(user.getRole());
+        System.out.println(user.getUsername());
         userRepository.save(user);
         return true;
     }

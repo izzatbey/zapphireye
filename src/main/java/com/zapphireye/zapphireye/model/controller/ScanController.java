@@ -14,20 +14,23 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("api/scan")
+//@RequestMapping("api/scan")
+@CrossOrigin(maxAge = 3600)
 @AllArgsConstructor
 public class ScanController {
 
     private ScanService scanService;
     private TaskScheduler taskScheduler;
 
-
-    @GetMapping
+    @CrossOrigin("http://localhost:3000")
+    @RequestMapping(method = RequestMethod.GET, path = "/api/scan")
     public List<Scan> fetchAllScans(){
         return scanService.findAll();
     }
 
-    @PostMapping(value = "/start", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin("http://localhost:3000")
+    @RequestMapping(method = RequestMethod.POST, path = "/start", consumes = MediaType.APPLICATION_JSON_VALUE)
+    //@PostMapping(value = "/start", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String startScan(@RequestBody(required = true) CreateScanRequest request){
         int periodDays = 3;
 

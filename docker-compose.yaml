@@ -17,7 +17,7 @@ services:
     volumes:
       - data:/data
   mongodb:
-    image: mongo:4.4.13
+    image: mongo:latest
     container_name: mongodb
     ports:
       - 27017:27017
