@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class AutomateZap {
     Logger log = Logger.getLogger(AutomateZap.class.getName());
-    //String driverPath = "/home/izzatbey/Documents/zapphireye/drivers/chromedriver";
+    //String driverPath = "D:\\My Office File\\Kuliah\\Proyek Akhir\\Project\\zapphireye\\drivers\\chromedriver.exe";
     public String driverPath;
     public String url;
     public String host = "localhost";

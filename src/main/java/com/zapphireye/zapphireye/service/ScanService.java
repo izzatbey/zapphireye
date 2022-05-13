@@ -1,5 +1,6 @@
 package com.zapphireye.zapphireye.service;
 
+import com.zapphireye.zapphireye.model.database.Description;
 import com.zapphireye.zapphireye.model.database.Scan;
 import com.zapphireye.zapphireye.model.request.CreateScanRequest;
 import org.zaproxy.clientapi.core.ClientApiException;
@@ -14,7 +15,9 @@ public interface ScanService {
 
     List<Scan> findAll();
 
-    Scan findByParam(String param);
+    Description findByParam(String id, String pluginid);
+
+    Scan getDescById(String id);
 
     void delete(String id);
 }
