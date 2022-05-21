@@ -1,4 +1,4 @@
-package com.zapphireye.zapphireye.model.database;
+package com.zapphireye.zapphireye.model.database.scan;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

@@ -1,18 +1,18 @@
 package com.zapphireye.zapphireye.service;
 
 import com.zapphireye.zapphireye.helper.AutomateZap;
-import com.zapphireye.zapphireye.model.database.Alert;
+import com.zapphireye.zapphireye.model.database.scan.Alert;
 import com.zapphireye.zapphireye.model.database.Description;
-import com.zapphireye.zapphireye.model.database.Scan;
+import com.zapphireye.zapphireye.model.database.scan.Scan;
+import com.zapphireye.zapphireye.model.database.Url;
 import com.zapphireye.zapphireye.model.request.CreateScanRequest;
 import com.zapphireye.zapphireye.repository.ScanRepository;
+import com.zapphireye.zapphireye.repository.UrlRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zaproxy.clientapi.core.ClientApiException;
 
-import javax.management.Query;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,15 +21,29 @@ import java.util.Optional;
 public class ScanServiceImpl implements ScanService{
 
     @Autowired
+    private UrlRepository urlRepository;
+    @Autowired
     private ScanRepository scanRepository;
 
     @Override
-    public Scan startFullScan(CreateScanRequest request) throws ClientApiException {
-        AutomateZap autoZap = new AutomateZap(request.getDriverPath(), request.getUrl());
+    public Scan startFullScan(String request) throws ClientApiException {
+        AutomateZap autoZap = new AutomateZap(request);
         autoZap.setup();
         autoZap.spider();
         Scan result = autoZap.activeScan();
+
         return scanRepository.save(result);
+    }
+
+    @Override
+    public Url saveUrlData(Url url) {
+        System.out.println(url);
+        return urlRepository.save(url);
+    }
+
+    @Override
+    public List<Url> findUrlAll() {
+        return urlRepository.findAll();
     }
 
     @Override

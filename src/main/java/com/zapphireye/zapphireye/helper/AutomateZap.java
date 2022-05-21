@@ -3,7 +3,7 @@ package com.zapphireye.zapphireye.helper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.zapphireye.zapphireye.model.database.Scan;
+import com.zapphireye.zapphireye.model.database.scan.Scan;
 import org.json.JSONObject;
 import org.zaproxy.clientapi.core.*;
 
@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 
 public class AutomateZap {
     Logger log = Logger.getLogger(AutomateZap.class.getName());
-    //String driverPath = "D:\\My Office File\\Kuliah\\Proyek Akhir\\Project\\zapphireye\\drivers\\chromedriver.exe";
-    public String driverPath;
+    String driverPath = "D:\\My Office File\\Kuliah\\Proyek Akhir\\Project\\zapphireye\\drivers\\chromedriver.exe";
+    //public String driverPath;
     public String url;
     public String host = "localhost";
     String scanPolicyName;
@@ -24,9 +24,8 @@ public class AutomateZap {
     private final ClientApi clientapi;
     private static List<String> blackListPlugins = Arrays.asList("1000", "1025");
 
-    public AutomateZap(String driverPath, String url) {
+    public AutomateZap(String url) {
         this.clientapi = new ClientApi(host, port);
-        this.driverPath = driverPath;
         this.url = url;
     }
 

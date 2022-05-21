@@ -2,24 +2,31 @@ package com.zapphireye.zapphireye.model.controller;
 
 import com.zapphireye.zapphireye.helper.scheduler.ScheduleScanTask;
 import com.zapphireye.zapphireye.model.database.Description;
-import com.zapphireye.zapphireye.model.database.Scan;
+import com.zapphireye.zapphireye.model.database.assessment.*;
+import com.zapphireye.zapphireye.model.database.scan.Scan;
+import com.zapphireye.zapphireye.model.database.Url;
 import com.zapphireye.zapphireye.model.request.CreateScanRequest;
+import com.zapphireye.zapphireye.model.response.ScanResponse;
+import com.zapphireye.zapphireye.service.RiskService;
 import com.zapphireye.zapphireye.service.ScanService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
 //@RequestMapping("api/scan")
+@CrossOrigin
 @AllArgsConstructor
 public class ScanController {
 
+    private RiskService riskService;
     private ScanService scanService;
     private TaskScheduler taskScheduler;
 
@@ -37,8 +44,53 @@ public class ScanController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/getUrl")
+    public List<Url> fetchAllUrl() {
+        return scanService.findUrlAll();
+    }
+
     @RequestMapping(method = RequestMethod.POST, path = "/start", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String startScan(@RequestBody(required = true) CreateScanRequest request){
+    public ResponseEntity<?> startScan(@RequestBody(required = true) CreateScanRequest request){
+        Url urlModel = new Url();
+        Risk risk = new Risk();
+        ThreatAgent threatAgent = new ThreatAgent();
+        Vulnerability vulnerability = new Vulnerability();
+        Technical technical = new Technical();
+        Business business = new Business();
+
+        urlModel.setName(request.getName());
+        urlModel.setUrl(request.getUrl());
+        urlModel.setOperator(request.getOperator());
+        urlModel.setPeriod(request.getPeriod());
+        urlModel.setDesc(request.getDescription());
+        threatAgent.setSkill(request.getSkill());
+        threatAgent.setMotive(request.getMotive());
+        threatAgent.setOpportunity(request.getOpportunity());
+        threatAgent.setPopulation(request.getPopulation());
+        risk.setThreatAgent(threatAgent);
+        vulnerability.setDiscovery(request.getDiscovery());
+        vulnerability.setExploit(request.getExploit());
+        vulnerability.setAwareness(request.getAwareness());
+        vulnerability.setIntrusion(request.getIntrusion());
+        risk.setVulnerability(vulnerability);
+        technical.setConfidentality(request.getConfidentality());
+        technical.setIntegrity(request.getIntegrity());
+        technical.setAvailability(request.getAvailability());
+        technical.setAccountability(request.getAccountability());
+        risk.setTechnical(technical);
+        business.setFinancial(request.getFinancial());
+        business.setReputation(request.getReputation());
+        business.setCompliance(request.getCompliance());
+        business.setPrivacy(request.getPrivacy());
+        risk.setBusiness(business);
+
+        riskService.calculateRisk(risk);
+        urlModel.setRiskNumber(risk.getTotal());
+        urlModel.setRiskDesc(risk.getRate());
+
+        scanService.saveUrlData(urlModel);
+
+
         int periodDays = 3;
 
         switch (request.getPeriod()) {
@@ -65,8 +117,8 @@ public class ScanController {
                 break;
         }
 
-        taskScheduler.schedule(new ScheduleScanTask(request, scanService), new PeriodicTrigger(periodDays, TimeUnit.MINUTES));
-        return "OK";
+        taskScheduler.schedule(new ScheduleScanTask(urlModel.getUrl(), scanService), new PeriodicTrigger(periodDays, TimeUnit.MINUTES));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ScanResponse("Url " + request.getUrl() + " Added"));
     }
 
 

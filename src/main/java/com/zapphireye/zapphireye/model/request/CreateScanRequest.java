@@ -1,31 +1,31 @@
 package com.zapphireye.zapphireye.model.request;
 
+import lombok.Data;
+
+@Data
 public class CreateScanRequest {
-    private String driverPath;
+    private String name;
     private String url;
+    private String operator;
     private String period;
+    private String description;
+    private int skill;
+    private int motive;
+    private int opportunity;
+    private int population;
+    private int discovery;
+    private int exploit;
+    private int awareness;
+    private int intrusion;
+    private int confidentality;
+    private int integrity;
+    private int availability;
+    private int accountability;
+    private int financial;
+    private int reputation;
+    private int compliance;
+    private int privacy;
 
-    public String getDriverPath() {
-        return driverPath;
-    }
 
-    public void setDriverPath(String driverPath) {
-        this.driverPath = driverPath;
-    }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(String period) {
-        this.period = period;
-    }
 }

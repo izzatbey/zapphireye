@@ -1,5 +1,6 @@
-package com.zapphireye.zapphireye.model.database;
+package com.zapphireye.zapphireye.model.database.scan;
 
+import com.zapphireye.zapphireye.model.database.Instance;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
