@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Business {
-    private int financial;
-    private int reputation;
-    private int compliance;
-    private int privacy;
+    private float financial;
+    private float reputation;
+    private float compliance;
+    private float privacy;
 }

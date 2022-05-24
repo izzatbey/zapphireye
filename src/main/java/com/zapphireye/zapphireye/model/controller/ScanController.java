@@ -90,7 +90,6 @@ public class ScanController {
 
         scanService.saveUrlData(urlModel);
 
-
         int periodDays = 3;
 
         switch (request.getPeriod()) {

@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThreatAgent {
-    private int skill;
-    private int motive;
-    private int opportunity;
-    private int population;
+    private float skill;
+    private float motive;
+    private float opportunity;
+    private float population;
 }

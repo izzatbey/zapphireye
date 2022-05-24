@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Technical {
-    private int confidentality;
-    private int integrity;
-    private int availability;
-    private int accountability;
+    private float confidentality;
+    private float integrity;
+    private float availability;
+    private float accountability;
 }
