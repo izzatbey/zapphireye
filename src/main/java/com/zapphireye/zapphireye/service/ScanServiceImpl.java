@@ -5,14 +5,12 @@ import com.zapphireye.zapphireye.model.database.scan.Alert;
 import com.zapphireye.zapphireye.model.database.Description;
 import com.zapphireye.zapphireye.model.database.scan.Scan;
 import com.zapphireye.zapphireye.model.database.Url;
-import com.zapphireye.zapphireye.model.request.CreateScanRequest;
 import com.zapphireye.zapphireye.repository.ScanRepository;
 import com.zapphireye.zapphireye.repository.UrlRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zaproxy.clientapi.core.ClientApiException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -25,13 +23,12 @@ public class ScanServiceImpl implements ScanService{
     @Autowired
     private ScanRepository scanRepository;
 
+
     @Override
     public Scan startFullScan(String request) throws ClientApiException {
         AutomateZap autoZap = new AutomateZap(request);
-        autoZap.setup();
         autoZap.spider();
         Scan result = autoZap.activeScan();
-
         return scanRepository.save(result);
     }
 
@@ -60,9 +57,7 @@ public class ScanServiceImpl implements ScanService{
     public Description findByParam(String id, String pluginid) {
 
         Optional<Scan> scan = scanRepository.findById(id);
-        if(scan.isEmpty()) {
-            return null;
-        } else {
+        if(scan.isPresent()) {
             List<Alert> alerts = scan.get().getSite().getAlerts();
             for (int i = 0; i < alerts.size(); i++) {
                 if(alerts.get(i).getPluginid().equals(pluginid)) {
@@ -73,6 +68,8 @@ public class ScanServiceImpl implements ScanService{
                     return description;
                 }
             }
+        } else {
+            return null;
         }
         return null;
     }

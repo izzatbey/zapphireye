@@ -20,7 +20,6 @@ public class RiskServiceImpl implements RiskService{
         float business;
         float likelihood;
         float impact;
-        float riskRate;
         float threatAgentSum;
         String likeLevel = "";
         String impactLevel = "";
@@ -77,10 +76,11 @@ public class RiskServiceImpl implements RiskService{
         System.out.println("Business : " + business);
         System.out.println("Likelihood : " + likelihood);
         System.out.println("Impact : " + impact);
-        riskRate = (likelihood + impact) / 2;
-        System.out.println("Risk Rate : " + riskRate);
-        risk.setTotal(riskRate);
-        risk.setRate(riskLevel);
+        risk.setLikelihoodRate(likelihood);
+        risk.setImpactRate(impact);
+        risk.setLikelihoodLevel(likeLevel);
+        risk.setImpactLevel(impactLevel);
+        risk.setRiskLevel(riskLevel);
         return risk;
     }
 }

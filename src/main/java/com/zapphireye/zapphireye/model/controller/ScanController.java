@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-//@RequestMapping("api/scan")
 @CrossOrigin
 @AllArgsConstructor
 public class ScanController {
@@ -85,12 +84,17 @@ public class ScanController {
         risk.setBusiness(business);
 
         riskService.calculateRisk(risk);
-        urlModel.setRiskNumber(risk.getTotal());
-        urlModel.setRiskDesc(risk.getRate());
+        urlModel.setImpactLevel(risk.getImpactLevel());
+        urlModel.setImpactRate(risk.getImpactRate());
+        urlModel.setLikelihoodLevel(risk.getLikelihoodLevel());
+        urlModel.setLikelihoodRate(risk.getLikelihoodRate());
+        urlModel.setRiskLevel(risk.getRiskLevel());
+        System.out.println("Url Model Likelihood : " + urlModel.getLikelihoodRate());
+        System.out.println("Url Model Impact : " + urlModel.getImpactRate());
 
         scanService.saveUrlData(urlModel);
 
-        int periodDays = 3;
+        int periodDays = 1;
 
         switch (request.getPeriod()) {
             case "Monthly":
@@ -112,7 +116,7 @@ public class ScanController {
                 periodDays = 365;
                 break;
             case "3Minutes":
-                periodDays = 3;
+                periodDays = 1;
                 break;
         }
 

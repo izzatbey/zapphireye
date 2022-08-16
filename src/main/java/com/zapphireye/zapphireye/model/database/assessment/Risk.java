@@ -12,6 +12,9 @@ public class Risk {
     private Vulnerability vulnerability;
     private Technical technical;
     private Business business;
-    private float total;
-    private String rate;
+    private float likelihoodRate;
+    private String likelihoodLevel;
+    private float impactRate;
+    private String impactLevel;
+    private String RiskLevel;
 }

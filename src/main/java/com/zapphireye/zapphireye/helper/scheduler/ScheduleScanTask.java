@@ -1,6 +1,5 @@
 package com.zapphireye.zapphireye.helper.scheduler;
 
-import com.zapphireye.zapphireye.model.request.CreateScanRequest;
 import com.zapphireye.zapphireye.service.ScanService;
 import org.zaproxy.clientapi.core.ClientApiException;
 

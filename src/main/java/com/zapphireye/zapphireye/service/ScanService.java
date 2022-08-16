@@ -3,7 +3,6 @@ package com.zapphireye.zapphireye.service;
 import com.zapphireye.zapphireye.model.database.Description;
 import com.zapphireye.zapphireye.model.database.scan.Scan;
 import com.zapphireye.zapphireye.model.database.Url;
-import com.zapphireye.zapphireye.model.request.CreateScanRequest;
 import org.zaproxy.clientapi.core.ClientApiException;
 
 import java.util.List;

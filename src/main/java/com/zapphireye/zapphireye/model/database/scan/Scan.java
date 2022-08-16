@@ -2,7 +2,6 @@ package com.zapphireye.zapphireye.model.database.scan;
 
 
 import com.google.gson.annotations.SerializedName;
-import com.zapphireye.zapphireye.model.database.assessment.Risk;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

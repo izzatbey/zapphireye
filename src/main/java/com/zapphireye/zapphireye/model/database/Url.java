@@ -1,9 +1,6 @@
 package com.zapphireye.zapphireye.model.database;
 
-import com.zapphireye.zapphireye.model.database.assessment.Risk;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,6 +14,9 @@ public class Url {
     private String operator;
     private String period;
     private String desc;
-    private float riskNumber;
-    private String riskDesc;
+    private float impactRate;
+    private String impactLevel;
+    private float likelihoodRate;
+    private String likelihoodLevel;
+    private String RiskLevel;
 }
