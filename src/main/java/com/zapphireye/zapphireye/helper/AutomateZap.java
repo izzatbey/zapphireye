@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.zapphireye.zapphireye.model.database.scan.Scan;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.zaproxy.clientapi.core.*;
 
 import java.nio.charset.StandardCharsets;
@@ -15,10 +16,9 @@ import java.util.logging.Logger;
 
 public class AutomateZap {
     Logger log = Logger.getLogger(AutomateZap.class.getName());
-    String driverPath = "D:\\My Office File\\Kuliah\\Proyek Akhir\\Project\\zapphireye\\drivers\\chromedriver.exe";
-    //public String driverPath;
+
     public String url;
-    public String host = "localhost";
+    public String host = "zaproxy";
     String scanPolicyName;
     int port = 8098;
     private final ClientApi clientapi;
@@ -27,11 +27,6 @@ public class AutomateZap {
     public AutomateZap(String url) {
         this.clientapi = new ClientApi(host, port);
         this.url = url;
-    }
-
-    public void setup() throws ClientApiException {
-        clientapi.selenium.setOptionChromeDriverPath(driverPath);
-        log.info("Driver Created");
     }
 
     private static String convertObjToString(Object clsObj) {
