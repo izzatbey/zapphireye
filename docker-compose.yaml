@@ -46,7 +46,7 @@ services:
     container_name: mongo-express
     restart: always
     ports:
-      - 8081:8081
+      - 9093:8081
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
@@ -61,14 +61,17 @@ services:
           memory: '2000M'
   zapphireye:
     container_name: zapphireye
-    image: zapphireye
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: izzatbey/zapphireye
     ports:
-      - 8080:8080
+     - 9092:8080
     environment:
      - SPRING_DATA_MONGODB_HOST=mongodb
-    #restart: always
+  zapphireye-frontend:
+    container_name: zapphireye-frontend
+    image: izzatbey/zapphireye-frontend
+    ports:
+      - 4321:80
+    volumes:
+      - ./env.js:/usr/share/nginx/html/env.js
 volumes:
   data: {}
